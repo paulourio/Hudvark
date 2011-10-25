@@ -55,7 +55,7 @@ static inline int verificar_simbolo(const int simbolo)
 	
 	for ( ; gramatica[i].token; i++) {
 		if (gramatica[i].simbolo == (char) simbolo)
-			return true;
+			return gramatica[i].token;
 		verificar_simbolo_extendido(simbolo);
 	}
 	return false;

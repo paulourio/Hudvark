@@ -12,7 +12,7 @@
 #include <tree.h>
 
 /* Allocate memory for a new node */
-struct bstree *tree_new_node(const int token)
+struct bstree *tree_new_node(const struct token *value)
 {
 	struct bstree   *bst;
 
@@ -25,8 +25,7 @@ struct bstree *tree_new_node(const int token)
 	bst->parent = NULL;
 	bst->lchild = NULL;
 	bst->rchild = NULL;
-	bst->token = token;
-	bst->contagem = 1;
+	bst->value = value;
 	return bst;
 }
 

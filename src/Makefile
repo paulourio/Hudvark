@@ -32,6 +32,7 @@ analiseLexica: preProc
 
 preProc:
 	cd preprocessamento && make
+	mv preprocessamento/dvarkpp .
 
 all: default
 

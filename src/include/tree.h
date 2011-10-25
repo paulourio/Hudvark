@@ -11,20 +11,21 @@
 
 #include <mensagens.h>
 #include <gramatica.h>
+#include <token.h>
 
 struct bstree {
 	struct bstree *parent;
 	struct bstree *lchild;
 	struct bstree *rchild;
-	int token;	   	/* Tipo da token */
-	int contagem;  		/* Operadores acumulados. */
+	struct token *value;
 };
 
 typedef void (*ftwalk)(const struct bstree *);
 
 extern void *tree_new(void);
 extern void tree_free(struct bstree **ptr) __nonnull ((1));
-extern struct bstree *tree_new_node(const int token);
+extern struct bstree *tree_new_node(const struct token *value);
 extern void tree_walk_preorder(const  struct bstree *ptree, const ftwalk cblk);
 
 #endif
+

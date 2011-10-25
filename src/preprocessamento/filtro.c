@@ -10,14 +10,20 @@
 
 void filtrar_entrada(void)
 {
-	int simbolo;
+	int simbolo, valido = 0;
 
 	while (!feof(stdin)) {
 		simbolo = fgetc(stdin);
 		if (simbolo == EOF)
 			break;
-		if (verificar_simbolo(simbolo))
+		if (verificar_simbolo(simbolo)) {
 			(void) putchar(simbolo);
+			valido = 1;
+		}
+	}
+	if (valido == 0) {
+		err("O arquivo de entrada não contém caracteres válidos.\n");
+		exit(1);
 	}
 	(void) putchar('\n');
 }

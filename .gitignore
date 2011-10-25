@@ -3,4 +3,5 @@
 *.s
 *.bof
 dvarkpp
+src/include/config.h
 

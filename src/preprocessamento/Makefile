@@ -1,14 +1,20 @@
-FONTES=
-
 CC=cc
 CFLAGS=-Wall -O2
 INCLUDES=-I../include
 
-default: $(PROGRAMA)
+default: all
 
-$(PROGRAMA): $(FONTES:.c=.o)
+all: preproc
 
-all: $(PRORAMA)
+preproc: filtro.o main.o
+	$(CC) $(LDFLAGS) $(INCLUDES) filtro.o main.o -o dvarkpp
+
+main.o: main.c preproc.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c main.c
+
+filtro.o: preproc.h filtro.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c filtro.c
 
 clean:
-	$(RM) -f $(PROGRAMA) $(FONTES:.c=.o)
+	$(RM) -f *.o dvarkpp
+

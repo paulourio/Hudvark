@@ -5,6 +5,9 @@
 #ifndef GRAMATICA_H
 #define GRAMATICA_H
 
+#include <stdbool.h>
+#include <mensagens.h>
+
 #define	PROXIMO		1
 #define ANTERIOR	2
 #define INCREMENTO	3
@@ -15,8 +18,8 @@
 #define LOOP_FIM	8
 
 struct gramatica {
-	int TOKEN;
-	char SIMBOLO;
+	int token;
+	char simbolo;
 };
 
 struct gramatica gramatica[] = {
@@ -30,5 +33,31 @@ struct gramatica gramatica[] = {
 	{LOOP_FIM,	']'},
 	{0, 0} 
 };
+
+static void verificar_simbolo_extendido(const int simbolo)
+{
+	switch (simbolo) {
+	case '@':
+	case '#':
+	case '!':
+		warn("O símbolo \"%c\" não é implementado no compilador "
+		     "clássico de brainfuck.\n", (char) simbolo);
+		break;
+	default:
+		break;
+	}
+}
+
+static int verificar_simbolo(const int simbolo)
+{
+	int i;
+	
+	for ( ; gramatica[i].token; i++) {
+		if (gramatica[i].simbolo == (char) simbolo)
+			return true;
+		verificar_simbolo_extendido(simbolo);
+	}
+	return false;
+}
 
 #endif

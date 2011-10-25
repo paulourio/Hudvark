@@ -20,21 +20,22 @@
 struct gramatica {
 	int token;
 	char simbolo;
+	char *to_s;
 };
 
 struct gramatica gramatica[] = {
-	{PROXIMO,	'>'},
-	{ANTERIOR,	'<'},
-	{INCREMENTO,	'+'},
-	{DECREMENTO,	'-'},
-	{IMPRESSAO,	'.'},
-	{LEITURA,	','},
-	{LOOP_INICIO,	'['},
-	{LOOP_FIM,	']'},
-	{0, 0} 
+	{PROXIMO,	'>', 	"Próximo \">\""},
+	{ANTERIOR,	'<', 	"Anterior \"<\""},
+	{INCREMENTO,	'+', 	"Incremento \"+\""},
+	{DECREMENTO,	'-', 	"Decremento \"-\""},
+	{IMPRESSAO,	'.', 	"Impressão \".\""},
+	{LEITURA,	',', 	"Leitura \",\""},
+	{LOOP_INICIO,	'[', 	"Início de loop \"[\""},
+	{LOOP_FIM,	']', 	"Fim de loop \"]\""},
+	{0, 0, "Desconhecido"} 
 };
 
-static void verificar_simbolo_extendido(const int simbolo)
+static inline void verificar_simbolo_extendido(const int simbolo)
 {
 	switch (simbolo) {
 	case '@':
@@ -48,7 +49,7 @@ static void verificar_simbolo_extendido(const int simbolo)
 	}
 }
 
-static int verificar_simbolo(const int simbolo)
+static inline int verificar_simbolo(const int simbolo)
 {
 	int i;
 	
@@ -58,6 +59,17 @@ static int verificar_simbolo(const int simbolo)
 		verificar_simbolo_extendido(simbolo);
 	}
 	return false;
+}
+
+static inline char *simbolo_para_string(const int simbolo)
+{
+	int i;
+	
+	for ( ; gramatica[i].token; i++) {
+		if (gramatica[i].simbolo == (char) simbolo)
+			return gramatica[i].to_s;
+	}
+	return gramatica[i].to_s;
 }
 
 #endif

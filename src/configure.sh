@@ -49,7 +49,7 @@ echo "/* as configurações desejadas.          */" >> include/config.h
 echo "#ifndef CONFIG_H" >> include/config.h
 echo "#define CONFIG_H" >> include/config.h
 echo "" >> include/config.h
-echo "#define CONFIG_DEBUG_LEVEL $DEBUG" >> include/config.h
-echo "" >> include/config.h
+echo -e "#define CONFIG_DEBUG_LEVEL $DEBUG\n" >> include/config.h
+echo -e "#define CONFIG_MAX_LOOP_DEPTH 300\n" >> include/config.h
 echo "#endif" >> include/config.h
 echo "" >> include/config.h

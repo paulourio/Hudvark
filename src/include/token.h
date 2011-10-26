@@ -4,6 +4,7 @@
 struct token {
 	int token;
 	int contagem;
+	int coluna;
 };
 
 #endif

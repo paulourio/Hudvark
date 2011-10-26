@@ -16,7 +16,7 @@ static void analisar(void)
 	inicializar_analisadores();
 	processar();
 
-	parser_analisar_tokens(&tokens);
+	analise_semantica( parser_analisar_tokens(&tokens) );
 }
 
 int main(void)

@@ -13,6 +13,7 @@
 #include <token.h>
 #include <gramatica.h>
 #include <mensagens.h>
+#include <string.h>
 
 int tree_errno;
 
@@ -64,7 +65,9 @@ static struct bstree *tree_successor(struct bstree *bst)
 		 * nó *nunca* deve ter um filho, pois é o fim de um
 		 * loop. */
 		//return tree_min(bst->rchild);
-		warn("Procurando sucessor de um nó que não é folha.");
+		err("Underflow: token %s não esperado.",
+			token_para_string(bst->value->token));
+		exit(1);
 	}
 	while (pai != NULL && bst == pai->rchild)
 		pai = (bst = pai)->parent;
@@ -107,18 +110,22 @@ static struct bstree *
 tree_insert_close_loop(struct bstree **ptree, struct bstree *current_node,
 			struct token *tk)
 {
+	struct bstree *novo;
+
 	dump("Fim de loop, procurando sucessor.");
 	if (current_node == NULL)
 		goto erro;
-	current_node = tree_successor(current_node);
-	if (current_node == NULL)
+	novo = tree_insert_after_node(ptree, current_node, tk);
+	novo = tree_successor(novo);
+	if (novo == NULL)
 		/* Árvore com apenas um nó e, portanto, nenhum loop. */
 		goto erro;
-	tree_errno = LIBERAR_TOKEN;
-	return current_node;
+	/*tree_errno = LIBERAR_TOKEN;*/
+	return novo;
 erro:
-	err("Erro de sintaxe: símbolo %s não esperado.",
-			token_para_string(tk->token));
+	err("Token %s não esperado. %p", token_para_string(tk->token), current_node);
+	tentar_imprimir_pedaco_codigo(*ptree, current_node,
+				token_para_simbolo(tk->token));
 	exit(1);
 }
 

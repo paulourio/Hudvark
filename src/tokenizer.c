@@ -11,6 +11,7 @@
 #include <analise.h>
 
 list *tokens;
+static int coluna;
 
 static void print_token_info(struct token *ptr)
 {
@@ -37,6 +38,7 @@ static struct token *nova_token(const int token)
 	}
 	tk->token = token;
 	tk->contagem = 1;
+	tk->coluna = coluna;
 	return tk;
 }
 
@@ -63,8 +65,10 @@ void processar(void)
 {
 	int simbolo;
 
+	coluna = 0;
 	while (!feof(stdin)) {
 		simbolo = fgetc(stdin);
+		coluna++;
 		if (simbolo == EOF)
 			break;
 		processar_simbolo(simbolo);

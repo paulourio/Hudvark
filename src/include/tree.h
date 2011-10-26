@@ -37,5 +37,10 @@ extern struct bstree *tree_insert(struct bstree **ptree,
 extern struct bstree *tree_new_node(struct token *value);
 extern void tree_walk_preorder(const  struct bstree *ptree, const ftwalk cblk);
 
+/* tree_dump.c */
+extern void tentar_imprimir_pedaco_codigo(struct bstree *tree,
+				struct bstree *destino, const int char_errado);
+
+
 #endif
 

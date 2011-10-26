@@ -12,5 +12,8 @@ extern void free_token(struct token *ptr);
 extern struct bstree *parser_analisar_tokens(list **lista);
 extern void parser_inicializar(void);
 
+/* Análise semântica */
+extern void analise_semantica(struct bstree *tree);
+
 #endif
 

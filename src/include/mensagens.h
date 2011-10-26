@@ -36,5 +36,11 @@
 #	define dump(...)
 #endif
 
+#if CONFIG_DEBUG_LEVEL > 4
+#	define megadump(...)	msg(__VA_ARGS__)
+#else
+#	define megadump(...)
+#endif
+
 #endif
 

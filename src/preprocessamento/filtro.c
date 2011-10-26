@@ -16,7 +16,7 @@ void filtrar_entrada(void)
 		simbolo = fgetc(stdin);
 		if (simbolo == EOF)
 			break;
-		if (verificar_simbolo(simbolo)) {
+		if (identificar_simbolo(simbolo)) {
 			(void) putchar(simbolo);
 			valido = 1;
 		}

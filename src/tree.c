@@ -32,7 +32,7 @@ struct bstree *tree_new_node(struct token *value)
 	bst->rchild = NULL;
 	bst->value = value;
 	dump("Novo nó para a árvore: %s @ %p",
-                token_para_string(value->token), bst);
+		token_para_string(value->token), bst);
 	return bst;
 }
 
@@ -77,11 +77,11 @@ tree_insert_after_node(struct bstree **ptree, struct bstree *current_node,
 {
 	struct bstree *new = tree_new_node(tk);
 
-        dump("Inserindo token %s à direita", token_para_string(tk->token));
-        new->parent = current_node;
-        if (current_node == NULL)
+	dump("Inserindo token %s à direita", token_para_string(tk->token));
+	new->parent = current_node;
+	if (current_node == NULL)
 		return *ptree = new;
-        return current_node->rchild = new;
+	return current_node->rchild = new;
 }
 
 static struct bstree *
@@ -99,7 +99,7 @@ tree_insert_new_loop(struct bstree **ptree, struct bstree *current_node,
 	}
 	dump("Inserindo token %s à esquerda", token_para_string(tk->token));
 	new = tree_new_node(tk);
-        new->parent = current_node;
+	new->parent = current_node;
 	return current_node->lchild = new;
 }
 

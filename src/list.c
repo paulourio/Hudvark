@@ -107,4 +107,3 @@ void list_insert_front(list *l, struct token *tk)
 		l->last = n;
 	l->front = n;
 }
-

@@ -15,14 +15,14 @@ static struct lnode *list_node_old = NULL; /* Usado para remoção de nós. */
 
 static struct lnode *liberar_no_atual(struct lnode *no)
 {
-        struct token *tk;
+	struct token *tk;
 
-        if (list_node_old == NULL)
-                tk = list_remove_front(*tokens);
-        else
-                tk = list_remove_node(*tokens, no, list_node_old);
-        free_token(tk);
-        if (list_node_old == NULL)
+	if (list_node_old == NULL)
+		tk = list_remove_front(*tokens);
+	else
+		tk = list_remove_node(*tokens, no, list_node_old);
+	free_token(tk);
+	if (list_node_old == NULL)
 		return (*tokens)->front;
 	else
 		return list_node_old->next;
@@ -32,8 +32,8 @@ static inline struct lnode *proximo_no(struct lnode *no)
 {
 	if (no == NULL)
 		return NULL;
-        list_node_old = no;
-        return no->next;
+	list_node_old = no;
+	return no->next;
 }
 
 static void parser_pular_loop(struct lnode **no)
@@ -47,15 +47,15 @@ static void parser_pular_loop(struct lnode **no)
 			exit(2);
 		}
 		megadump("Ignorando %s",
-                        token_para_string((*no)->value->token));
+			token_para_string((*no)->value->token));
 		switch ((*no)->value->token) {
 		default:
-                case PROXIMO:
-                case ANTERIOR:
-                case INCREMENTO:
-                case DECREMENTO:
-                case IMPRESSAO:
-                case LEITURA:
+		case PROXIMO:
+		case ANTERIOR:
+		case INCREMENTO:
+		case DECREMENTO:
+		case IMPRESSAO:
+		case LEITURA:
 			break;
 		case LOOP_INICIO:
 			nivel++;
@@ -66,7 +66,7 @@ static void parser_pular_loop(struct lnode **no)
 			megadump("Novo nível: %d", nivel);
 			break;
 		}
-                *no = liberar_no_atual(*no);
+		*no = liberar_no_atual(*no);
 	} while (nivel > 0);
 }
 

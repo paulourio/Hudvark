@@ -9,7 +9,7 @@ static void inicializar_analisadores(void)
 	parser_inicializar();	/* Análise sintática */
 }
 
-int main(void)
+static void analisar(void)
 {
 	extern list *tokens;
 
@@ -17,6 +17,11 @@ int main(void)
 	processar();
 
 	parser_analisar_tokens(&tokens);
+}
+
+int main(void)
+{
+	analisar();
 	return EXIT_SUCCESS;
 }
 

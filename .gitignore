@@ -3,5 +3,6 @@
 *.s
 *.bof
 dvarkpp
+dvarkan
 src/include/config.h
 

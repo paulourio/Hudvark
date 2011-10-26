@@ -1,5 +1,6 @@
 *.o
-*.sw{o,p}
+*.swo
+*.swp
 *.s
 *.bof
 dvarkpp

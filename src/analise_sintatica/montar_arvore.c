@@ -17,12 +17,10 @@ static struct lnode *liberar_no_atual(struct lnode **no)
 {
         struct token *tk;
 
-        if (list_node_old == NULL) {
+        if (list_node_old == NULL)
                 tk = list_remove_front(*tokens);
-
-        } else {
+        else
                 tk = list_remove_node(*tokens, *no, list_node_old);
-        }
         free_token(tk);
         return list_node_old->next;
 }

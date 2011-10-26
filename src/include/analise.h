@@ -1,5 +1,5 @@
-#ifndef TOKEN_H
-#define TOKEN_H
+#ifndef ANALISE_H
+#define ANALISE_H
 
 #include "list.h"
 

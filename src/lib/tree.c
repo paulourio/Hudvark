@@ -77,7 +77,7 @@ tree_insert_after_node(struct bstree **ptree, struct bstree *current_node,
 {
 	struct bstree *new = tree_new_node(tk);
 
-        dump("Inserindo token <%s> à direita", token_para_string(tk->token));
+        dump("Inserindo token %s à direita", token_para_string(tk->token));
         new->parent = current_node;
         if (current_node == NULL)
 		return *ptree = new;
@@ -97,7 +97,7 @@ tree_insert_new_loop(struct bstree **ptree, struct bstree *current_node,
 		tree_errno = LOOP_INVALIDO;
 		return NULL;
 	}
-	dump("Inserindo token <%s> à esquerda", token_para_string(tk->token));
+	dump("Inserindo token %s à esquerda", token_para_string(tk->token));
 	new = tree_new_node(tk);
         new->parent = current_node;
 	return current_node->lchild = new;
@@ -116,7 +116,7 @@ tree_insert_close_loop(struct bstree **ptree, struct bstree *current_node,
 		goto erro;
 	return current_node;
 erro:
-	err("Erro de sintaxe: símbolo <%s> não esperado.",
+	err("Erro de sintaxe: símbolo %s não esperado.",
 			token_para_string(tk->token));
 	exit(1);
 }

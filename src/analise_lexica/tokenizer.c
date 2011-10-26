@@ -13,7 +13,7 @@ list *tokens;
 
 static void print_token_info(struct token *ptr)
 {
-	dump("Token: %s", token_para_string(ptr->token));
+	dump("Token: %s @ %p", token_para_string(ptr->token), ptr);
 }
 
 void free_token(struct token *ptr)

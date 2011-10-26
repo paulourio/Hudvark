@@ -26,8 +26,9 @@ struct gramatica {
 
 extern struct gramatica gramatica[];
 
-int identificar_simbolo(const int simbolo);
-char *token_para_string(const int token);
+extern int identificar_simbolo(const int simbolo);
+extern char *token_para_string(const int token);
+extern int token_para_simbolo(const int token);
 
 #endif
 

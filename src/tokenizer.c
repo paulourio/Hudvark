@@ -8,6 +8,7 @@
 #include <token.h>
 #include <gramatica.h>
 #include <list.h>
+#include <analise.h>
 
 list *tokens;
 

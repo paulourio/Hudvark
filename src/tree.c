@@ -107,7 +107,7 @@ static struct bstree *
 tree_insert_close_loop(struct bstree **ptree, struct bstree *current_node,
 			struct token *tk)
 {
-	dump("Fim de loop, procurando sucessor.", token_para_string(tk->token));
+	dump("Fim de loop, procurando sucessor.");
 	if (current_node == NULL)
 		goto erro;
 	current_node = tree_successor(current_node);

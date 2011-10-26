@@ -1,59 +1,43 @@
-PROGRAMA=
 CC=cc
 PROGRAMA=hudvark
 CFLAGS=-Wall -O2
-INCLUDES=-I../include
+INCLUDES=-Iinclude
 
-default: $(PROGRAMA)
+default: all
 
-$(PROGRAMA): libs geradorCodigoFinal
+all: dvarkpp dvarkan $(PROGRAMA)
 
-libs: gramatica.o
-	cd lib && make
-	mv lib/*.o .
+$(PROGRAMA): include/config.h
 
-geradorCodigoFinal: otimizador
-	cd gerador_cod_otimizado && make
+dvarkpp: gramatica.o
+	cd preproc && make
+	mv preproc/dvarkpp .
 
-otimizador: geradorCodigo
-	cd otimizador && make
+dvarkan: list.o tree.o gramatica.o main.o tokenizer.o montar_arvore.o 
+	$(CC) $(LDFLAGS) $(INCLUDES) list.o tree.o gramatica.o tokenizer.o \
+		montar_arvore.o main.o -o dvarkan
 
-geradorCodigo: analises
-	cd gerador_codigo && make
+gramatica.o: gramatica.c include/gramatica.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c gramatica.c
+	
+main.o:
+	$(CC) $(CFLAGS) $(INCLUDES) -c main.c
 
-analises: analiseLexica analiseSintatica analiseSemantica libs
-	cd analise && make
-	$(CC) $(LDFLAGS) list.o gramatica.o analise/main.o tokenizer.o \
-		tree.o analise_sintatica/montar_arvore.o -o dvarkan
+tokenizer.o: tokenizer.c include/list.h include/token.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c tokenizer.c
+	
+montar_arvore.o: tree.o list.o montar_arvore.c include/token.h \
+	include/analise.h include/tree.h include/list.h include/mensagens.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c montar_arvore.c
+	
+tree.o: tree.c include/tree.h gramatica.o
+	$(CC) $(CFLAGS) $(INCLUDES) -c tree.c
 
-analiseSemantica: 
-	cd analise_semantica && make
-
-analiseSintatica: 
-	cd analise_sintatica && make
-
-analiseLexica: preProc
-	cd analise_lexica && make && cp tokenizer.o ..
-
-preProc: gramatica.o
-	cd preprocessamento && make
-	mv preprocessamento/dvarkpp .
-
-gramatica.o:
-	cd gramatica && make
-	mv gramatica/gramatica.o .
-
-all: default
+list.o: list.c include/list.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c list.c
 
 clean:
-	cd lib && make clean
-	cd gerador_cod_otimizado && make clean
-	cd otimizador && make clean
-	cd gerador_codigo && make clean
-	cd analise && make clean
-	cd analise_semantica && make clean
-	cd analise_sintatica && make clean
-	cd analise_lexica && make clean
-	cd preprocessamento && make clean
+	cd preproc && make clean
 	$(RM) include/config.h
 	$(RM) dvarkan dvarkpp *.o
+

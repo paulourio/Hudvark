@@ -3,10 +3,10 @@
  * 			análise léxica.
  */
 #include <token.h>
-#include <list.h>
-#include <tree.h>
-#include <mensagens.h>
 #include <analise.h>
+#include <mensagens.h>
+#include <tree.h>
+#include <list.h>
 
 struct bstree *tree;
 static list **tokens; /* Não buscamos fora, recebemos como parâmetro. */

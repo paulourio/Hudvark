@@ -42,7 +42,11 @@ if [[ $DEBUG -gt 1 ]]; then
 	echo "Escrevendo configuração em include/config.h"
 fi
 
-echo "#ifndef CONFIG_H" > include/config.h
+echo "/* Arquivo gerado automaticamente       */" > include/config.h
+echo "/* Não altere este arquivo manualmente, */" >> include/config.h
+echo "/* use o script configure.sh para gerar */" >> include/config.h
+echo "/* as configurações desejadas.          */" >> include/config.h
+echo "#ifndef CONFIG_H" >> include/config.h
 echo "#define CONFIG_H" >> include/config.h
 echo "" >> include/config.h
 echo "#define CONFIG_DEBUG_LEVEL $DEBUG" >> include/config.h

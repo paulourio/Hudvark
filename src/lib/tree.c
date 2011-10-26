@@ -114,6 +114,7 @@ tree_insert_close_loop(struct bstree **ptree, struct bstree *current_node,
 	if (current_node == NULL)
 		/* Árvore com apenas um nó e, portanto, nenhum loop. */
 		goto erro;
+	tree_errno = LIBERAR_TOKEN;
 	return current_node;
 erro:
 	err("Erro de sintaxe: símbolo %s não esperado.",

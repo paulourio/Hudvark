@@ -18,6 +18,7 @@
  * do código (trecho não executável). */
 #define NENHUM_ERRO	0
 #define LOOP_INVALIDO	1
+#define LIBERAR_TOKEN	2
 extern int tree_errno;
 
 struct bstree {
@@ -31,7 +32,7 @@ typedef void (*ftwalk)(const struct bstree *);
 
 extern void *tree_new(void);
 extern void tree_free(struct bstree **ptr) __nonnull ((1));
-extern struct bstree *tree_insert(struct bstree **ptree, 
+extern struct bstree *tree_insert(struct bstree **ptree,
 		struct bstree *current_node, struct token *tk);
 extern struct bstree *tree_new_node(struct token *value);
 extern void tree_walk_preorder(const  struct bstree *ptree, const ftwalk cblk);

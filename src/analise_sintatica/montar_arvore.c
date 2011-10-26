@@ -46,7 +46,7 @@ static void parser_pular_loop(struct lnode **no)
 				token_para_simbolo(LOOP_FIM));
 			exit(2);
 		}
-		debug("Ignorando %s",
+		megadump("Ignorando %s",
                         token_para_string((*no)->value->token));
 		switch ((*no)->value->token) {
 		default:
@@ -59,27 +59,30 @@ static void parser_pular_loop(struct lnode **no)
 			break;
 		case LOOP_INICIO:
 			nivel++;
-			debug("Novo nível: %d", nivel);
+			megadump("Novo nível: %d", nivel);
 			break;
 		case LOOP_FIM:
 			nivel--;
-			debug("Novo nível: %d", nivel);
+			megadump("Novo nível: %d", nivel);
 			break;
 		}
                 *no = liberar_no_atual(*no);
 	} while (nivel > 0);
 }
 
-static void parser_verificar_erro(struct lnode **no)
+static int parser_verificar_erro(struct lnode **no)
 {
 	/* TODO: Testar isso. */
 	switch (tree_errno) {
 	case LOOP_INVALIDO:
 		parser_pular_loop(no);
-		return;
+		return 1;
+	case LIBERAR_TOKEN:
+		*no = liberar_no_atual(*no);
+		return 1;
 	default:
 	case NENHUM_ERRO:
-		break;
+		return 0;
 	}
 	/* Nenhum erro identificado, passar para o próximo token
 	 * normalmente. */
@@ -94,12 +97,10 @@ void parser_montar_arvore(struct lnode *no)
 		return;
 	tk = no->value;
 	tree_node = tree_insert(&tree, tree_node, tk);
-	if (tree_node == NULL) {
-		parser_verificar_erro(&no);
+	if (parser_verificar_erro(&no))
 		parser_montar_arvore(no);
-	} else {
+	else
 		parser_montar_arvore(proximo_no(no));
-	}
 }
 
 void parser_analisar_tokens(list **lista)
@@ -112,7 +113,7 @@ void parser_analisar_tokens(list **lista)
 		exit(1);
 	}
 	parser_montar_arvore(no);
-	debug("Árvore dos lexemas montada.");
+	debug("\033[1mÁrvore dos lexemas montada.\033[0m");
 }
 
 static void parser_finalizar(void)

@@ -19,7 +19,8 @@ static void print_token_info(struct token *ptr)
 void free_token(struct token *ptr)
 {
 	if (ptr != NULL) {
-		dump("Token liberado da memória @ %p", ptr);
+		dump("Token %s liberado da memória @ %p",
+			token_para_string(ptr->token), ptr);
 		free(ptr);
 	}
 }

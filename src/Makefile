@@ -8,7 +8,7 @@ default: $(PROGRAMA)
 
 $(PROGRAMA): libs geradorCodigoFinal
 
-libs: 
+libs: gramatica.o
 	cd lib && make
 	mv lib/*.o .
 
@@ -18,21 +18,29 @@ geradorCodigoFinal: otimizador
 otimizador: geradorCodigo
 	cd otimizador && make
 
-geradorCodigo: analiseSemantica
+geradorCodigo: analises
 	cd gerador_codigo && make
 
-analiseSemantica: analiseSintatica
+analises: analiseLexica analiseSintatica analiseSemantica libs
+	cd analise && make
+	$(CC) $(LDFLAGS) list.o gramatica.o analise/main.o tokenizer.o -o dvarkan
+
+analiseSemantica: 
 	cd analise_semantica && make
 
-analiseSintatica: analiseLexica
+analiseSintatica: 
 	cd analise_sintatica && make
 
 analiseLexica: preProc
-	cd analise_lexica && make
+	cd analise_lexica && make && cp tokenizer.o ..
 
-preProc:
+preProc: gramatica.o
 	cd preprocessamento && make
 	mv preprocessamento/dvarkpp .
+
+gramatica.o:
+	cd gramatica && make
+	mv gramatica/gramatica.o .
 
 all: default
 
@@ -41,8 +49,10 @@ clean:
 	cd gerador_cod_otimizado && make clean
 	cd otimizador && make clean
 	cd gerador_codigo && make clean
+	cd analise && make clean
 	cd analise_semantica && make clean
 	cd analise_sintatica && make clean
 	cd analise_lexica && make clean
 	cd preprocessamento && make clean
-	$(RM) $(PROGRAMA) $(FONTES:.c=.o)
+	$(RM) include/config.h
+	$(RM) dvarkan dvarkpp *.o

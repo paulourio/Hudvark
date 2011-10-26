@@ -11,4 +11,4 @@ $(PROGRAMA): $(FONTES:.c=.o)
 all: $(PRORAMA)
 
 clean:
-	$(RM) -f $(PROGRAMA) $(FONTES:.c=.o)
+	$(RM) $(FONTES:.c=.o)

@@ -8,7 +8,7 @@
 #include <tree.h>
 #include <list.h>
 
-struct bstree *tree;
+static struct bstree *tree;
 static list **tokens; /* Não buscamos fora, recebemos como parâmetro. */
 static struct bstree *tree_node = NULL;
 static struct lnode *list_node_old = NULL; /* Usado para remoção de nós. */
@@ -103,7 +103,7 @@ void parser_montar_arvore(struct lnode *no)
 		parser_montar_arvore(proximo_no(no));
 }
 
-void parser_analisar_tokens(list **lista)
+struct bstree *parser_analisar_tokens(list **lista)
 {
 	struct lnode *no = list_front(*lista);
 
@@ -114,6 +114,7 @@ void parser_analisar_tokens(list **lista)
 	}
 	parser_montar_arvore(no);
 	debug("\033[1mÁrvore dos lexemas montada.\033[0m");
+	return tree;
 }
 
 static void parser_finalizar(void)

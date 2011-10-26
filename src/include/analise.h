@@ -9,7 +9,7 @@ extern void tk_inicializar(void);
 extern void free_token(struct token *ptr);
 
 /* Análise sintática */
-extern void parser_analisar_tokens(list **lista);
+extern struct bstree *parser_analisar_tokens(list **lista);
 extern void parser_inicializar(void);
 
 #endif

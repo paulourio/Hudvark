@@ -43,7 +43,7 @@ list *list_free(list *l)
 	return NULL;
 }
 
-static void *list_remove_node(list *l, struct lnode *node, 
+struct token *list_remove_node(list *l, struct lnode *node,
 		struct lnode *previous)
 {
 	void *result = NULL;
@@ -57,14 +57,14 @@ static void *list_remove_node(list *l, struct lnode *node,
 	return result;
 }
 
-void *list_remove_front(list *l)
+struct token *list_remove_front(list *l)
 {
 	if (l->front == NULL)
 		return NULL;
 	return list_remove_node(l, l->front, NULL);
 }
 
-static struct lnode *list_new_node(void *v)
+static struct lnode *list_new_node(struct token *v)
 {
 	struct lnode *new_node;
 
@@ -74,7 +74,7 @@ static struct lnode *list_new_node(void *v)
 		exit(1);
 	}
 	new_node->value = v;
-	new_node->next = NULL;  
+	new_node->next = NULL;
 	return new_node;
 }
 

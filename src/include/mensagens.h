@@ -9,10 +9,12 @@
 #include <stdio.h>
 #include "config.h"
 
-#define msg_location fprintf(stderr, "Na função %s (%s:%d)\n", __FUNCTION__, \
+#define msg_location fprintf(stderr, "Na função %s (%s:%d) ", __FUNCTION__, \
 			__FILE__, __LINE__)
 
-#define msg(...) msg_location; fprintf(stderr, "\t" __VA_ARGS__)
+#define __endl  fprintf(stderr, "\n")
+
+#define msg(...) msg_location; fprintf(stderr, __VA_ARGS__ ); __endl
 
 #define err(...)	msg("Erro: "__VA_ARGS__)
 

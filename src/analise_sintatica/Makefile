@@ -1,14 +1,12 @@
-FONTES=
-
 CC=cc
 CFLAGS=-Wall -O2
 INCLUDES=-I../include
 
-default: $(PROGRAMA)
+default: montar_arvore.o
 
-$(PROGRAMA): $(FONTES:.c=.o)
-
-all: $(PRORAMA)
+montar_arvore.o: montar_arvore.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c montar_arvore.c
 
 clean:
-	$(RM) -f $(PROGRAMA) $(FONTES:.c=.o)
+	$(RM) montar_arvore.o
+

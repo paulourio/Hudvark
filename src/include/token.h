@@ -6,8 +6,5 @@ struct token {
 	int contagem;
 };
 
-void processar(void);
-void tk_inicializar(void);
-
 #endif
 

@@ -23,7 +23,8 @@ geradorCodigo: analises
 
 analises: analiseLexica analiseSintatica analiseSemantica libs
 	cd analise && make
-	$(CC) $(LDFLAGS) list.o gramatica.o analise/main.o tokenizer.o -o dvarkan
+	$(CC) $(LDFLAGS) list.o gramatica.o analise/main.o tokenizer.o \
+		tree.o analise_sintatica/montar_arvore.o -o dvarkan
 
 analiseSemantica: 
 	cd analise_semantica && make

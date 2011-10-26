@@ -13,20 +13,23 @@ list *tokens;
 
 static void print_token_info(struct token *ptr)
 {
-	dump("Token: %s\n", token_para_string(ptr->token));
+	dump("Token: %s", token_para_string(ptr->token));
 }
 
-static void free_token(struct token *ptr)
+void free_token(struct token *ptr)
 {
-	free(ptr);
+	if (ptr != NULL) {
+		dump("Token liberado da memória @ %p", ptr);
+		free(ptr);
+	}
 }
 
 static struct token *nova_token(const int token)
 {
 	struct token *tk = malloc(sizeof(struct token));
-	
+
 	if (tk == NULL) {
-		err("Não foi possível alocar memória para o símbolo %c.\n",
+		err("Não foi possível alocar memória para o símbolo %c.",
 			(char) token);
 		exit(1);
 	}
@@ -39,11 +42,11 @@ static void processar_simbolo(const int simbolo)
 {
 	int valor = identificar_simbolo(simbolo);
 	struct token *tk;
-	
+
 	if (simbolo == '\n') /* Quebra de linha. */
 		return;
 	if (valor == SIMBOLO_NAO_ACEITO) {
-		err("Símbolo desconhecido: %c.\n", (char) simbolo);
+		err("Símbolo desconhecido: %c.", (char) simbolo);
 		exit(1);
 	}
 	tk = nova_token(valor);

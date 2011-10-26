@@ -9,7 +9,7 @@ struct gramatica gramatica[] = {
 	{LEITURA,	',', 	"Leitura \",\""},
 	{LOOP_INICIO,	'[', 	"Início de loop \"[\""},
 	{LOOP_FIM,	']', 	"Fim de loop \"]\""},
-	{SIMBOLO_NAO_ACEITO, '\0', "Desconhecido"} 
+	{SIMBOLO_NAO_ACEITO, '\0', "Desconhecido"}
 };
 
 static void verificar_simbolo_extendido(const int simbolo)
@@ -19,7 +19,7 @@ static void verificar_simbolo_extendido(const int simbolo)
 	case '#':
 	case '!':
 		warn("O símbolo \"%c\" não é implementado no compilador "
-		     "clássico de brainfuck.\n", (char) simbolo);
+		     "clássico de brainfuck.", (char) simbolo);
 		break;
 	default:
 		break;
@@ -29,19 +29,19 @@ static void verificar_simbolo_extendido(const int simbolo)
 int identificar_simbolo(const int simbolo)
 {
 	int i = 0;
-	
+
 	for ( ; gramatica[i].token != SIMBOLO_NAO_ACEITO; i++) {
 		if (gramatica[i].simbolo == (char) simbolo)
 			return gramatica[i].token;
-		verificar_simbolo_extendido(simbolo);
 	}
+	verificar_simbolo_extendido(simbolo);
 	return SIMBOLO_NAO_ACEITO;
 }
 
 char *token_para_string(const int token)
 {
 	int i = 0;
-	
+
 	for ( ; gramatica[i].token != SIMBOLO_NAO_ACEITO; i++) {
 		if (gramatica[i].token == (char) token)
 			return gramatica[i].to_s;

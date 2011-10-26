@@ -5,7 +5,7 @@
 #include <token.h>
 
 struct lnode {
-	void *value;
+	struct token *value;
 	struct lnode *next;
 };
 
@@ -20,9 +20,11 @@ typedef struct {
 extern void list_clear(list *l);
 extern list *list_new(void);
 extern list *list_free(list *l);
-extern void *list_remove_front(list *l);
 extern void list_append(list *node, struct token *tk);
 extern void list_insert_front(list *l, struct token *tk);
+extern struct token *list_remove_front(list *l);
+extern struct token *list_remove_node(list *l, struct lnode *node,
+		struct lnode *previous);
 
 static inline int list_isempty(const list *l)
 {
@@ -39,6 +41,10 @@ static inline struct lnode *list_back(list *l)
 	return l->last;
 }
 
+static inline struct lnode *list_front(list *l)
+{
+	return l->front;
+}
 
 #endif
 

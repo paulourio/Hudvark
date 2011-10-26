@@ -10,16 +10,17 @@
  */
 #include <stdlib.h>
 #include <tree.h>
+#include <gramatica.h>
 
 /* Allocate memory for a new node */
-struct bstree *tree_new_node(const struct token *value)
+struct bstree *tree_new_node(struct token *value)
 {
 	struct bstree   *bst;
 
 	bst = malloc(sizeof(struct bstree));
 	if (bst == NULL) {
 		err("Não foi possível alocar memória para token %s.\n", 
-			simbolo_para_string(token));
+			token_para_string(value->token));
 		exit(1);
 	}
 	bst->parent = NULL;

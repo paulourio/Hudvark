@@ -16,16 +16,22 @@
 
 #define err(...)	msg("Erro: "__VA_ARGS__)
 
-#ifdef CONFIG_DEBUG_LEVEL > 1
+#if CONFIG_DEBUG_LEVEL > 1
 #	define warn(...)	msg("Aviso: " __VA_ARGS__)
 #else
 #	define warn(...)
 #endif
 
-#ifdef CONFIG_DEBUG_LEVEL > 2
+#if CONFIG_DEBUG_LEVEL > 2
 #	define debug(...)	msg("Debug: " __VA_ARGS__)
 #else
 #	define debug(...)
+#endif
+
+#if CONFIG_DEBUG_LEVEL > 3
+#	define dump(...)	msg(__VA_ARGS__)
+#else
+#	define dump(...)
 #endif
 
 #endif

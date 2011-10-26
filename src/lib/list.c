@@ -77,12 +77,34 @@ static struct lnode *list_new_node(void *v)
 	new_node->next = NULL;  
 	return new_node;
 }
-	
-void list_insert_front(list *l, void *v)
+
+static struct lnode *list_insert_after_node(struct lnode *node, struct token *t)
 {
-	struct lnode *n = list_new_node(v);
+	struct lnode *n = list_new_node(t);
+
+	if (node != NULL) {
+		n->next = node->next;
+		node->next = n;
+	}
+	return n;
+}
+
+void list_append(list *l, struct token *tk)
+{
+	if (l->front == NULL) {
+		list_insert_front(l, tk);
+		return;
+	}
+	l->last = list_insert_after_node(l->last, tk);
+}
+
+void list_insert_front(list *l, struct token *tk)
+{
+	struct lnode *n = list_new_node(tk);
 
 	n->next = l->front;
+	if (l->front == NULL)
+		l->last = n;
 	l->front = n;
 }
 

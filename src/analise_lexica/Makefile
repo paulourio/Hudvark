@@ -1,14 +1,11 @@
-FONTES=
-
 CC=cc
 CFLAGS=-Wall -O2
 INCLUDES=-I../include
 
-default: $(PROGRAMA)
+all: tokenizer.o
 
-$(PROGRAMA): $(FONTES:.c=.o)
-
-all: $(PRORAMA)
+tokenizer.o: tokenizer.c ../include/list.h ../include/token.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c tokenizer.c
 
 clean:
-	$(RM) -f $(PROGRAMA) $(FONTES:.c=.o)
+	$(RM) tokenizer.o

@@ -24,7 +24,7 @@ typedef void (*ftwalk)(const struct bstree *);
 
 extern void *tree_new(void);
 extern void tree_free(struct bstree **ptr) __nonnull ((1));
-extern struct bstree *tree_new_node(const struct token *value);
+extern struct bstree *tree_new_node(struct token *value);
 extern void tree_walk_preorder(const  struct bstree *ptree, const ftwalk cblk);
 
 #endif

@@ -6,7 +6,7 @@ ARCH=-DARCH_x86_64=1
 
 default: all
 
-all: dvarkpp dvarkan $(PROGRAMA)
+all: include/config.h dvarkpp dvarkan $(PROGRAMA)
 
 $(PROGRAMA): include/config.h
 
@@ -61,6 +61,9 @@ asm_x86_64.o: include/asm.h include/asm_x86_64.h asm_x86_64.c loopstack.o
 	
 loopstack.o: include/mensagens.h include/loopstack.h loopstack.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c loopstack.c
+
+include/config.h:
+	./configure.sh
 
 clean:
 	cd preproc && make clean

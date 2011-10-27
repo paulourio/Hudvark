@@ -12,6 +12,7 @@
 #include <tree.h>
 #include <token.h>
 #include <gramatica.h>
+#include <analise.h>
 #include <mensagens.h>
 #include <string.h>
 

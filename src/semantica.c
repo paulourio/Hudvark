@@ -40,7 +40,9 @@ static void imprimir_simbolo(const struct token *tk)
 	char simbolo = (char) token_para_simbolo(tk->token);
 	int i;
 
-	//for (i = 0;  i < tk->contagem;  i++)
+	if (simbolo ==  BOLHA)
+		return;
+	for (i = 0;  i < tk->contagem;  i++)
 		raw_debug("%c", simbolo);
 }
 

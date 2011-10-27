@@ -6,6 +6,7 @@ function sintaxe
 	echo "sintaxe: ./hudvark entrada.b [-o executavel]"
 	echo "ex: ./bfc hello.b -o HelloWorld"
 	echo -e "\t-o   Definir o nome do arquivo executável gerado."
+	echo -e "\t-s   Apenas compilar, não fazer o link."
 	echo -e "\t-v   Mostrar detalhes do que está acontecendo."
 	echo -e "\t-vv  Mostrar muitos detalhes do que está acontecendo."
 	echo -e "\t-vvv Mais ainda."
@@ -21,6 +22,7 @@ function echobf {
 FONTE=""
 OUTPUT=a.out
 DEBUG=0
+NAO_LINKAR=0
 
 # Imprime uma mensagem de acordo com a 'verbosidade' definida.
 function debugbf {
@@ -74,6 +76,9 @@ while [ "$1" != "" ]; do
 				echo "Você deve definir um arquivo de saída."
 				xit 1
 			fi
+			;;
+	-s )
+			NAO_LINKAR=1
 			;;
 	-v )
 			DEBUG=1
@@ -131,6 +136,12 @@ passo 5 "Geração de código"
 passo 6 "Otimização de código"
 
 executar "./dvarkan < $OUT_PRE > $OUT_COD"
+
+if [[ "$NAO_LINKAR" = "1" ]]; then
+	executar "rm -f bffiltro.bof"
+	mensagem "Arquivo assembly: $OUT_COD"
+	exit 0
+fi
 
 passo 7 "Geração do código final"
 

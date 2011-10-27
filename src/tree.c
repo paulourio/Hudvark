@@ -123,7 +123,8 @@ tree_insert_close_loop(struct bstree **ptree, struct bstree *current_node,
 	/*tree_errno = LIBERAR_TOKEN;*/
 	return novo;
 erro:
-	err("Token %s não esperado. %p", token_para_string(tk->token), current_node);
+	err("Token %s não esperado. (Nó atual: %p)",
+		token_para_string(tk->token), current_node);
 	tentar_imprimir_pedaco_codigo(*ptree, current_node,
 				token_para_simbolo(tk->token));
 	exit(1);

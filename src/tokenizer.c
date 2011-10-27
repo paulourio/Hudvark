@@ -32,7 +32,7 @@ static struct token *nova_token(const int token)
 	struct token *tk = malloc(sizeof(struct token));
 
 	if (tk == NULL) {
-		err("Não foi possível alocar memória para o símbolo %c.",
+		err("Não foi possível alocar memória para o símbolo '%c'.",
 			(char) token);
 		exit(1);
 	}
@@ -50,7 +50,7 @@ static void processar_simbolo(const int simbolo)
 	if (simbolo == '\n') /* Quebra de linha. */
 		return;
 	if (valor == SIMBOLO_NAO_ACEITO) {
-		err("Símbolo desconhecido: %c.", (char) simbolo);
+		err("Símbolo desconhecido: '%c'.", (char) simbolo);
 		exit(1);
 	}
 	tk = nova_token(valor);

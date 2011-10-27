@@ -2,11 +2,17 @@
 #include <stdlib.h>
 #include <token.h>
 #include <gramatica.h>
+#include <loopstack.h>
+#include <mensagens.h>
+
+/* Variáveis - Inicializadas com "asm_gerar_inicio" */
+static struct loopstack *pilha = NULL;
+static int contador_loop = 0;
 
 #define endl		fputc('\n', stdout)
-#define out(...)	fprintf(stdout, __VA_ARGS__); endl
+#define out(...)	{ fprintf(stdout, __VA_ARGS__); endl; }
 
-static int legivel = 1; /* Gerar código legível para um humano. */
+static int legivel = 0; /* Gerar código legível para um humano. */
 static int tamanho_memoria = 30000;
 
 static const char *_readable_linux_syscall = "$LINUX_SYSCALL";
@@ -14,10 +20,10 @@ static const char *_readable_asm_sys_exit = "$SYS_EXIT";
 static const char *_readable_asm_sys_write = "$SYS_WRITE";
 static const char *_readable_asm_stdout = "$STDOUT";
 
-static const char *_linux_syscall = "80h";
-static const char *_asm_sys_exit = "1";
-static const char *_asm_sys_write = "4";
-static const char *_asm_stdout = "1";
+static const char *_linux_syscall = "$0x80";
+static const char *_asm_sys_exit = "$1";
+static const char *_asm_sys_write = "$4";
+static const char *_asm_stdout = "$1";
 
 #define _asm_get(o)	(legivel?  _readable##o: o)
 
@@ -35,9 +41,13 @@ static const char *_asm_stdout = "1";
 #define OP_SUB	"subl"
 #define OP_MOV	"movl"
 #define OP_LEA	"leal"
+#define OP_TEST	"testl"
 
 void asm_gerar_inicio(void)
 {
+	pilha = loopstack_new();
+	contador_loop = 0;
+
 	if (legivel) {
 		out(".section .data");
 		out("\t.equ SYS_WRITE, 4");
@@ -65,6 +75,8 @@ void asm_gerar_final(void)
 	out("\t%s %s, %%eax", OP_MOV, __SYSEXIT);
 	out("\tint %s", __SYSCALL);
 	endl;
+
+	pilha = loopstack_free(pilha);
 }
 
 static void asm_alterar_memoria(const int soma, const int valor)
@@ -94,6 +106,38 @@ static void asm_imprimir(void)
 	out("\tint %s", __SYSCALL);
 }
 
+static void asm_criar_loop(void)
+{
+	struct loop_info *info = malloc(sizeof(struct loop_info));
+
+	if (info == NULL) {
+		err("Não há memória disponível para montar um loop.");
+		exit(1);
+	}
+	info->id_corpo = contador_loop++;
+	info->id_verificacao = contador_loop++;
+	loopstack_push(pilha, info);
+
+	out("\tjmp .loop%d", info->id_verificacao);
+	out(".loop%d:", info->id_corpo);
+}
+
+static void asm_fechar_loop(void)
+{
+	struct loop_info *info = loopstack_pop(pilha);
+
+	if (info == NULL) {
+		err("Erro ao montar o código. Loop-stack vazia.");
+		exit(1);
+	}
+	out(".loop%d:", info->id_verificacao);
+	out("\t%s %s(,%s,4), %s", OP_MOV, __MEMORIA, __REG_POSICAO, __REG_TEMP);
+	out("\t%s %s, %s", OP_TEST, __REG_TEMP, __REG_TEMP);
+	out("\tjne .loop%d", info->id_corpo);
+
+	free(info);
+}
+
 void asm_gerar(const struct token *tk)
 {
 	switch (tk->token) {
@@ -109,14 +153,14 @@ void asm_gerar(const struct token *tk)
 		asm_imprimir();
 		break;
 	case LEITURA:
-		fprintf(stderr, "\nLeitura: não implementado.\n");
+		err("\nLeitura: não implementado.\n");
 		exit(1);
 	case LOOP_INICIO:
-		fprintf(stderr, "\nLoop: não implementado.\n");
-		exit(1);
+		asm_criar_loop();
+		break;
 	case LOOP_FIM:
-		fprintf(stderr, "\nLoop: não implementado.\n");
-		exit(1);
+		asm_fechar_loop();
+		break;
 	}
 }
 

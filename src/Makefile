@@ -56,10 +56,10 @@ list.o: list.c include/list.h
 stack.o: stack.c include/stack.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c stack.c
 	
-asm_x86_64.o: include/asm.h include/asm_x86_64.h asm_x86_64.c
+asm_x86_64.o: include/asm.h include/asm_x86_64.h asm_x86_64.c loopstack.o
 	$(CC) $(CFLAGS) $(INCLUDES) -c asm_x86_64.c
 	
-loopstack.o: include/mensagens.h include/loopstack.h
+loopstack.o: include/mensagens.h include/loopstack.h loopstack.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c loopstack.c
 
 clean:

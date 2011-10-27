@@ -27,7 +27,7 @@ struct loopstack {
 
 typedef struct loopstack	loopstack;
 
-extern struct loopstack *stack_new(void);
+extern struct loopstack *loopstack_new(void);
 extern void *loopstack_free(struct loopstack *s);
 
 #define loopstack_isempty(s)	(s->top == NULL)

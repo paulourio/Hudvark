@@ -16,10 +16,10 @@ dvarkpp: gramatica.o
 
 dvarkan: list.o tree.o stack.o gramatica.o main.o tokenizer.o \
 	montar_arvore.o semantica.o tree_dump.o analise.o \
-	asm_x86_64.o compilar.o
+	asm_x86_64.o compilar.o loopstack.o
 	$(CC) $(LDFLAGS) $(INCLUDES) list.o tree.o gramatica.o \
 		tokenizer.o montar_arvore.o stack.o semantica.o tree_dump.o \
-		asm_x86_64.o analise.o compilar.o main.o -o dvarkan
+		loopstack.o asm_x86_64.o analise.o compilar.o main.o -o dvarkan
 
 gramatica.o: gramatica.c include/gramatica.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c gramatica.c
@@ -39,7 +39,7 @@ semantica.o: stack.o tree.o list.o include/token.h \
 	$(CC) $(CFLAGS) $(INCLUDES) -c semantica.c
 	
 compilar.o: include/analise.h include/tree.h tree.o compilar.c
-	$(CC) $(CFLAGS) $(INCLUDES)  $(ARCH) -c compilar.c
+	$(CC) $(CFLAGS) $(INCLUDES) $(ARCH) -c compilar.c
 	
 analise.o: include/analise.h tree.o list.o analise.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c analise.c
@@ -58,6 +58,9 @@ stack.o: stack.c include/stack.h
 	
 asm_x86_64.o: include/asm.h include/asm_x86_64.h asm_x86_64.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c asm_x86_64.c
+	
+loopstack.o: include/mensagens.h include/loopstack.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c loopstack.c
 
 clean:
 	cd preproc && make clean

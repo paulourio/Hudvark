@@ -63,7 +63,7 @@ loopstack.o: include/mensagens.h include/loopstack.h loopstack.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c loopstack.c
 
 include/config.h:
-	./configure.sh
+	./configure.sh --debug 2
 
 clean:
 	cd preproc && make clean

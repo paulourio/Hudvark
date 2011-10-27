@@ -15,7 +15,7 @@
 
 #define __endl	fprintf(stderr, "\n")
 
-#define msg(...)	msg_location; fprintf(stderr, __VA_ARGS__); __endl
+#define msg(...)	{ msg_location; fprintf(stderr, __VA_ARGS__); __endl; }
 
 #define err(...)	msg("Erro: "__VA_ARGS__)
 #define raw_err(...)	fprintf(stderr, __VA_ARGS__)

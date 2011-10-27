@@ -52,11 +52,7 @@ function erro {
 
 function executar {
 	debug 2 "$1"
-	if [ "$DEBUG" = "3" ]; then
-		/bin/bash -c "$1"
-	else
-		/bin/bash -c "$1" 2> /dev/null
-	fi
+	/bin/bash -c "$1"
 	ret="$?"
 	sync
 	if [ "$ret" -ne "0" ]; then

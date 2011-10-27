@@ -50,6 +50,8 @@ void tree_free(struct bstree **ptr)
 		return;
 	tree_free(&(*ptr)->lchild);
 	tree_free(&(*ptr)->rchild);
+	if ((*ptr)->value->token == BOLHA)
+		free((*ptr)->value);
 	free(*ptr);
 	*ptr = NULL;
 }
@@ -76,15 +78,39 @@ static struct bstree *tree_successor(struct bstree *bst)
 
 static struct bstree *
 tree_insert_after_node(struct bstree **ptree, struct bstree *current_node,
-			struct token *tk)
+			struct token *tk, const int pode_acumular)
 {
-	struct bstree *new = tree_new_node(tk);
+	struct bstree *new;
 
+	if (current_node != NULL
+		&& current_node->lchild == NULL
+		&& pode_acumular) {
+
+		if (current_node->value->token == tk->token) {
+			current_node->value->contagem++;
+			return current_node;
+		}
+	}
+	new = tree_new_node(tk);
 	dump("Inserindo token %s à direita", token_para_string(tk->token));
 	new->parent = current_node;
 	if (current_node == NULL)
 		return *ptree = new;
+	if (current_node->rchild != NULL) {
+		err("Tentando sobreescrever nó à direita com token %s",
+			token_para_string(tk->token));
+		free(new);
+		exit(1);
+	}
 	return current_node->rchild = new;
+}
+
+static struct bstree *
+tree_inserir_bolha(struct bstree **ptree, struct bstree *current_node)
+{
+	struct token *tk = nova_token(BOLHA);
+
+	return tree_insert_after_node(ptree, current_node, tk, 0);
 }
 
 static struct bstree *
@@ -101,6 +127,11 @@ tree_insert_new_loop(struct bstree **ptree, struct bstree *current_node,
 		return NULL;
 	}
 	dump("Inserindo token %s à esquerda", token_para_string(tk->token));
+	if (current_node->lchild != NULL) {
+		debug("Tentando sobreescrever nó à esquerda com token %s. "
+		    "Criando bolha à direita.", token_para_string(tk->token));
+		current_node = tree_inserir_bolha(ptree, current_node);
+	}
 	new = tree_new_node(tk);
 	new->parent = current_node;
 	return current_node->lchild = new;
@@ -115,7 +146,7 @@ tree_insert_close_loop(struct bstree **ptree, struct bstree *current_node,
 	dump("Fim de loop, procurando sucessor.");
 	if (current_node == NULL)
 		goto erro;
-	novo = tree_insert_after_node(ptree, current_node, tk);
+	novo = tree_insert_after_node(ptree, current_node, tk, 0);
 	novo = tree_successor(novo);
 	if (novo == NULL)
 		/* Árvore com apenas um nó e, portanto, nenhum loop. */
@@ -143,9 +174,10 @@ struct bstree *tree_insert(struct bstree **ptree, struct bstree *current_node,
 	case ANTERIOR:
 	case INCREMENTO:
 	case DECREMENTO:
+		return tree_insert_after_node(ptree, current_node, tk, 1);
 	case IMPRESSAO:
 	case LEITURA:
-		return tree_insert_after_node(ptree, current_node, tk);
+		return tree_insert_after_node(ptree, current_node, tk, 0);
 	case LOOP_INICIO:
 		return tree_insert_new_loop(ptree, current_node, tk);
 	case LOOP_FIM:

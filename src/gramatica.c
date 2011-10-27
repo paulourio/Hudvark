@@ -9,6 +9,7 @@ struct gramatica gramatica[] = {
 	{LEITURA,	',', 	"<Leitura, \",\">"},
 	{LOOP_INICIO,	'[', 	"<Início de loop, \"[\">"},
 	{LOOP_FIM,	']', 	"<Fim de loop, \"]\">"},
+	{BOLHA,		'B',	"<Bolha>"},
 	{SIMBOLO_NAO_ACEITO, '\0', "<Desconhecido>"}
 };
 

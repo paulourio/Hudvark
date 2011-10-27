@@ -15,6 +15,7 @@
 #define LEITURA		6
 #define	LOOP_INICIO	7
 #define LOOP_FIM	8
+#define BOLHA		9
 
 #define SIMBOLO_NAO_ACEITO 0
 

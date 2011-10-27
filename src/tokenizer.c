@@ -27,7 +27,7 @@ void free_token(struct token *ptr)
 	}
 }
 
-static struct token *nova_token(const int token)
+struct token *nova_token(const int token)
 {
 	struct token *tk = malloc(sizeof(struct token));
 

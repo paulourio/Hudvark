@@ -13,7 +13,6 @@
  * e se validada, a segunda parte, o corpo do loop, é executada. */
 struct loop_info {
 	int id_corpo; /* Id do corpo do loop */
-	int id_verificacao; /* Id da verificação da execução do corpo. */
 };
 
 struct loopst_node {

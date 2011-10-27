@@ -10,6 +10,7 @@ extern struct bstree *analisar(void);
 /* Análise léxica */
 extern void processar(void);
 extern void tk_inicializar(void);
+extern struct token *nova_token(const int token);
 extern void free_token(struct token *ptr);
 
 /* Análise sintática */

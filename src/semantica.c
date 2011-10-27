@@ -85,7 +85,7 @@ static void analisar_arvore(const struct bstree *tree)
 		if (tree->value->token == ANTERIOR && tree->parent == NULL)
 			analise_erro_underflow_memoria();
 
-		if (tree->rchild != NULL)
+		if (tree->rchild != NULL || tree->parent == NULL)
 			imprimir_simbolo(tree->value);
 
 		if (pai != NULL && pai->lchild == tree)
@@ -93,7 +93,7 @@ static void analisar_arvore(const struct bstree *tree)
 
 		analisar_arvore(tree->lchild);
 
-		if (tree->rchild == NULL) {
+		if (tree->rchild == NULL && tree->parent != NULL) {
 			if (tree->value->token == LOOP_FIM)
 				analisar_fim_loop();
 			imprimir_simbolo(tree->value);
@@ -106,7 +106,9 @@ static void analisar_arvore(const struct bstree *tree)
 static void verificar_profundidade_no_final(void)
 {
 	if (!stack_isempty(profundidade)) {
-		err("");
+		err("Esperado '%c', mas encontrado EOF",
+			token_para_simbolo(LOOP_FIM));
+		exit(1);
 	}
 }
 

@@ -10,13 +10,14 @@
 
 void filtrar_entrada(void)
 {
-	int simbolo, valido = 0;
+	int simbolo, token, valido = 0;
 
 	while (!feof(stdin)) {
 		simbolo = fgetc(stdin);
 		if (simbolo == EOF)
 			break;
-		if (identificar_simbolo(simbolo)) {
+		token = identificar_simbolo(simbolo);
+		if (token && token != BOLHA) {
 			(void) putchar(simbolo);
 			valido = 1;
 		}

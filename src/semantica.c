@@ -46,13 +46,21 @@ static void imprimir_simbolo(const struct token *tk)
 		raw_debug("%c", simbolo);
 }
 
-static void analisar_inicio_loop(void)
+static void analisar_inicio_loop(const struct bstree *tree)
 {
+	int col = tree->value->coluna;
+
 	if (stack_isfull(profundidade)) {
 		err("Overflow: Pilha de loop cheia. Você pode tentar compilar "
 		    "aumentando o tamanho da pilha com "
 		    "./configure --tam-pilha 500"); /* TODO: criar opção */
 		exit(2);
+	}
+	if (tree->parent != NULL && tree->parent->value->token == BOLHA) {
+		warn("Loop iniciado na coluna %d nunca será executado.", col);
+	}
+	if (tree->rchild != NULL && tree->rchild->value->token == LOOP_FIM) {
+		warn("Loop infinito iniciando na coluna %d.", col);
 	}
 	identacao_aumentar();
 }
@@ -91,7 +99,7 @@ static void analisar_arvore(const struct bstree *tree)
 			imprimir_simbolo(tree->value);
 
 		if (pai != NULL && pai->lchild == tree)
-			analisar_inicio_loop();
+			analisar_inicio_loop(tree);
 
 		analisar_arvore(tree->lchild);
 

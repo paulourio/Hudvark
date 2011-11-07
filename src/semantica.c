@@ -53,7 +53,7 @@ static void analisar_inicio_loop(const struct bstree *tree)
 	if (stack_isfull(profundidade)) {
 		err("Overflow: Pilha de loop cheia. Você pode tentar compilar "
 		    "aumentando o tamanho da pilha com "
-		    "./configure --tam-pilha 500"); /* TODO: criar opção */
+		    "./configure --tam-pilha 500");
 		exit(2);
 	}
 	if (tree->parent != NULL && tree->parent->value->token == BOLHA) {

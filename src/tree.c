@@ -15,6 +15,7 @@
 #include <analise.h>
 #include <mensagens.h>
 #include <string.h>
+#include <config.h>
 
 int tree_errno;
 
@@ -83,7 +84,7 @@ tree_insert_after_node(struct bstree **ptree, struct bstree *current_node,
 {
 	struct bstree *new;
 
-	if (current_node != NULL
+	if (CONFIG_OTIMIZAR && current_node != NULL
 		&& current_node->lchild == NULL
 		&& pode_acumular) {
 

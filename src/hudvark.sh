@@ -10,6 +10,7 @@ function sintaxe
 	echo -e "\t-v   Mostrar detalhes do que está acontecendo."
 	echo -e "\t-vv  Mostrar muitos detalhes do que está acontecendo."
 	echo -e "\t-vvv Mais ainda."
+	echo -e "\t-V   Mostrar versão atual compilador instalado."
 	echo ""
 }
 
@@ -18,6 +19,9 @@ function sintaxe
 function echobf {
 	echo -e "\033[0;1m$1\033[0m"
 }
+
+versao=v1.0
+STR_VERSAO="Hudvärk: Compilador brainfuck $versao\nPaulo Roberto Urio (Outubro 2011)"
 
 FONTE=""
 OUTPUT=a.out
@@ -85,6 +89,10 @@ while [ "$1" != "" ]; do
 	-vvv )
 			DEBUG=3
 			;;
+	-V | --versao )   
+	                echo -e "$STR_VERSAO"
+	                exit 0
+	                ;;
 	-h | --help )   sintaxe
 			exit
 			;;
@@ -98,8 +106,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
-debug 1 "Hudvärk: Brainfuck Compiler v1.0"
-debug 1 "Paulo Roberto Urio (Outubro 2011)"
+debug 1 "$STR_VERSAO"
 
 EXT_OUT=bof
 OUT_PRE=bffiltro.$EXT_OUT

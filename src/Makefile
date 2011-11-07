@@ -8,6 +8,8 @@ default: all
 
 all: include/config.h dvarkpp dvarkan $(PROGRAMA)
 
+semotimizar: include/config.h2 dvarkpp dvarkan $(PROGRAMA)
+
 $(PROGRAMA): include/config.h
 
 dvarkpp: gramatica.o
@@ -64,6 +66,9 @@ loopstack.o: include/mensagens.h include/loopstack.h loopstack.c
 
 include/config.h:
 	./configure.sh --debug 2
+	
+include/config.h2:
+	./configure.sh --debug 2 --nao-otimizar
 
 clean:
 	cd preproc && make clean

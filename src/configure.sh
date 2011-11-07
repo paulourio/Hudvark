@@ -6,12 +6,19 @@ function sintaxe
 {
 	echo "sintaxe: ./configure [--debug nivel]"
 	echo "ex: ./bfc --debug 3"
-	echo -e "\t--debug\tDefine quanto o compilador deve mostrar durante"
-	echo -e "\t\to processo de compilação."
+	echo -e "\t--debug\t\tDefine quanto o compilador deve mostrar durante"
+	echo -e "\t\t\to processo de compilação."
+	echo -e "\t--nao-otimizar\tNão otimizar o código."
+	echo -e "\t--tam-pilha\tTamanho máximo da pilha. Define a profundidade"
+	echo -e "\t\t\tmáxima de loops. Padrão: 300"
+	echo -e "\t--memoria\tTamanho da memória do programa. Padrão: 30000"
 	echo ""
 }
 
 DEBUG=0
+OTIMIZAR=1
+TAMPILHA=300
+MEMORIA=30000
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -26,6 +33,21 @@ while [ "$1" != "" ]; do
 				echo -e "Nível de debug deve ser um número.\n"
 				exit 1
 			fi
+			;;
+	--tam-pilha )	shift
+			TAMPILHA=$1
+			if [ "$TAMPILHA" = "" ]; then
+				echo -e "Erro: Você deve definir o tamanho da pilha.\n"
+				sintaxe
+				exit 1
+			fi
+			if ! [[ "$TAMPILHA" =~ ^[0-9]+$ ]]; then
+				echo -e "Tamanho da pilha deve ser um número.\n"
+				exit 1
+			fi
+			;;			
+	--nao-otimizar )
+			OTIMIZAR=0
 			;;
 	-h | --help )   sintaxe
 			exit
@@ -50,6 +72,8 @@ echo "#ifndef CONFIG_H" >> include/config.h
 echo "#define CONFIG_H" >> include/config.h
 echo "" >> include/config.h
 echo -e "#define CONFIG_DEBUG_LEVEL $DEBUG\n" >> include/config.h
-echo -e "#define CONFIG_MAX_LOOP_DEPTH 300\n" >> include/config.h
+echo -e "#define CONFIG_MAX_LOOP_DEPTH $TAMPILHA\n" >> include/config.h
+echo -e "#define CONFIG_OTIMIZAR $OTIMIZAR\n" >> include/config.h
+echo -e "#define CONFIG_MEMORIA $MEMORIA\n" >> include/config.h
 echo "#endif" >> include/config.h
 echo "" >> include/config.h

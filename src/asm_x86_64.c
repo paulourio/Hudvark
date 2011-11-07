@@ -4,20 +4,21 @@
 #include <gramatica.h>
 #include <loopstack.h>
 #include <mensagens.h>
+#include <config.h>
 
 /* Variáveis - Inicializadas com "asm_gerar_inicio" */
 static struct loopstack *pilha = NULL;
 static int contador_loop = 0;
 /* As próximas duas variáveis marcam se é necessário criar as funções
  * de ler e imprimir. */
-static int deve_gerar_imprimir = 0;
-static int deve_gerar_ler = 0;
+static int deve_gerar_imprimir = CONFIG_OTIMIZAR;
+static int deve_gerar_ler = CONFIG_OTIMIZAR;
 
 #define endl		fputc('\n', stdout)
 #define out(...)	{ fprintf(stdout, __VA_ARGS__); endl; }
 
 static int legivel = 0; /* Gerar código legível para um humano. */
-static int tamanho_memoria = 30000;
+static int tamanho_memoria = CONFIG_MEMORIA;
 
 static const char *_readable_linux_syscall = "$LINUX_SYSCALL";
 static const char *_readable_asm_sys_exit = "$SYS_EXIT";

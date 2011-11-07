@@ -62,3 +62,4 @@ struct loop_info *loopstack_pop(struct loopstack *s)
 	free(Top);
 	return toRet;
 }
+

@@ -56,3 +56,4 @@ void tentar_imprimir_pedaco_codigo(struct bstree *tree,	struct bstree *destino,
 	montar_caminho(tree, destino);
 	caminho = stack_free(caminho);
 }
+

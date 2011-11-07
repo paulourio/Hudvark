@@ -60,3 +60,4 @@ int token_para_simbolo(const int token)
 	}
 	return (int) '?';
 }
+

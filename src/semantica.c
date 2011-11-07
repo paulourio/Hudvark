@@ -144,3 +144,4 @@ void analise_semantica(struct bstree *tree)
 	raw_debug("\n");
 	verificar_profundidade_no_final();
 }
+

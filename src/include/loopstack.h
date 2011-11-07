@@ -36,3 +36,4 @@ extern void loopstack_push(struct loopstack *s, struct loop_info *data);
 extern struct loop_info *loopstack_pop(struct loopstack *s);
 
 #endif
+

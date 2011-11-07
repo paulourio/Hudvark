@@ -14,3 +14,4 @@ extern void asm_set_legivel(const int valor);
 extern void asm_tamanho_memoria(const int valor);
 
 #endif
+

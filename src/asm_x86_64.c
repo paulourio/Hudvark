@@ -235,3 +235,4 @@ void asm_tamanho_memoria(const int valor)
 {
 	tamanho_memoria = valor;
 }
+

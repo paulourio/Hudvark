@@ -14,3 +14,4 @@ struct bstree *analisar(void)
 	analise_semantica(arvore);
 	return arvore;
 }
+

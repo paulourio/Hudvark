@@ -200,6 +200,14 @@ static void asm_gerar_leitura(void)
 	out("\tcall %s", FUNCAO_LER);
 }
 
+void asm_gerar_zerar_celula(void)
+{
+	if (legivel)
+		out("\t# %s[i] = 0", __MEMORIA);
+	out("\t%s $%d, %s", OP_MOV, 0, __REG_TEMP);
+	out("\t%s %s, %s(,%s,4)", OP_MOV, __REG_TEMP, __MEMORIA, __REG_POSICAO);
+}
+
 void asm_gerar(const struct token *tk)
 {
 	switch (tk->token) {

@@ -23,6 +23,8 @@ function echobf {
 versao=v1.0
 STR_VERSAO="Hudvärk: Compilador brainfuck $versao\nPaulo Roberto Urio (Outubro 2011)"
 
+RM="`which rm` -f"
+
 FONTE=""
 OUTPUT=a.out
 DEBUG=0
@@ -54,9 +56,7 @@ function erro {
 	debug 0 "\033[31m* $1"
 }
 
-function executar {
-	debug 2 "$1"
-	/bin/bash -c "$1"
+function checkret {
 	ret="$?"
 	sync
 	if [ "$ret" -ne "0" ]; then
@@ -65,6 +65,12 @@ function executar {
 			exit -1
 		fi
 	fi
+}
+
+function executar {
+	debug 2 "$1"
+	/bin/bash -c "$1"
+	checkret
 }
 
 
@@ -113,6 +119,10 @@ OUT_PRE=bffiltro.$EXT_OUT
 OUT_COD=bfcod.s
 OBJ_COD=bfcod.o
 
+ANALISADOR=`which dvarkan`
+checkret
+PROCESSADOR=`which dvarkpp`
+checkret
 
 if [[ "$FONTE" = "" ]]; then
 	echo -e "Nenhum arquivo-fonte definido.\n"
@@ -122,7 +132,7 @@ fi
 
 passo 1 "Pré-processamento"
 
-executar "./dvarkpp < $FONTE > $OUT_PRE"
+executar "dvarkpp < $FONTE > $OUT_PRE"
 if [ "$?" != "0" ]; then
 	erro "[Hudvärk] Erro ao pré-processar."
 	exit 1
@@ -138,22 +148,24 @@ passo 5 "Geração de código"
 
 passo 6 "Otimização de código"
 
-executar "./dvarkan < $OUT_PRE > $OUT_COD"
+executar "dvarkan < $OUT_PRE > $OUT_COD"
 
 if [[ "$NAO_LINKAR" = "1" ]]; then
-	executar "rm -f bffiltro.bof"
+	executar "$RM bffiltro.bof"
 	mensagem "Arquivo assembly: $OUT_COD"
 	exit 0
 fi
 
 passo 7 "Geração do código final"
 
-executar "as $OUT_COD -o $OBJ_COD"
-executar "ld $OBJ_COD -o $OUTPUT"
+as=`which as`
+ld=`which ld`
+executar "$as --64 --noexecstack -mmnemonic=att $OUT_COD -o $OBJ_COD"
+executar "$ld $OBJ_COD -o $OUTPUT"
 
 mensagem "Removendo arquivos auxiliares"
 
-executar "rm -f $OUT_PRE $OBJ_COD $OUT_COD"
+executar "$RM $OUT_PRE $OBJ_COD $OUT_COD"
 
 mensagem "Arquivo gerado: ./$OUTPUT"
 

@@ -46,6 +46,13 @@ static void imprimir_simbolo(const struct token *tk)
 		raw_debug("%c", simbolo);
 }
 
+static int loops_nao_executaveis = 0;
+static void loop_nao_executavel(const int col)
+{
+	if (loops_nao_executaveis++ == 0)
+		warn("Loop iniciado na coluna %d nunca será executado.", col);
+}
+
 static void analisar_inicio_loop(const struct bstree *tree)
 {
 	int col = tree->value->coluna;
@@ -57,7 +64,7 @@ static void analisar_inicio_loop(const struct bstree *tree)
 		exit(2);
 	}
 	if (tree->parent != NULL && tree->parent->value->token == BOLHA) {
-		warn("Loop iniciado na coluna %d nunca será executado.", col);
+		loop_nao_executavel(col);
 	}
 	if (tree->rchild != NULL 
 		&& tree->rchild->value->token == LOOP_FIM
@@ -141,6 +148,8 @@ void analise_semantica(struct bstree *tree)
 {
 	iniciar_pilha();
 	analisar_arvore(tree);
+	if (loops_nao_executaveis > 1)
+		warn("Outros %d loops não são executáveis.\n", loops_nao_executaveis);
 	raw_debug("\n");
 	verificar_profundidade_no_final();
 }

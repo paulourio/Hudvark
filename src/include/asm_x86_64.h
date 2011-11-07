@@ -13,6 +13,7 @@ extern void asm_gerar_final(void);
 extern void asm_gerar(const struct token *tk);
 extern void asm_set_legivel(const int valor);
 extern void asm_tamanho_memoria(const int valor);
+extern void asm_gerar_zerar_celula(void);
 
 #endif
 

@@ -1,9 +1,12 @@
 CC=cc
-PROGRAMA=hudvark
+PROGRAMA=dvarkan
 CFLAGS=-Wall -O2
 INCLUDES=-Iinclude
 ARCH=-DARCH_x86_64=1
 
+OBJECTS=list.o tree.o gramatica.o tokenizer.o montar_arvore.o stack.o \
+   semantica.o tree_dump.o loopstack.o asm_x86_64.o analise.o compilar.o main.o
+   
 default: all
 
 all: include/config.h dvarkpp dvarkan $(PROGRAMA)
@@ -16,12 +19,8 @@ dvarkpp: gramatica.o
 	cd preproc && make
 	mv preproc/dvarkpp .
 
-dvarkan: list.o tree.o stack.o gramatica.o main.o tokenizer.o \
-	montar_arvore.o semantica.o tree_dump.o analise.o \
-	asm_x86_64.o compilar.o loopstack.o
-	$(CC) $(LDFLAGS) $(INCLUDES) list.o tree.o gramatica.o \
-		tokenizer.o montar_arvore.o stack.o semantica.o tree_dump.o \
-		loopstack.o asm_x86_64.o analise.o compilar.o main.o -o dvarkan
+dvarkan: $(OBJECTS)
+	$(CC) $(LDFLAGS) $(INCLUDES) $(OBJECTS) -o dvarkan
 
 gramatica.o: gramatica.c include/gramatica.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c gramatica.c

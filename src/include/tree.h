@@ -30,6 +30,7 @@ struct bstree {
 
 typedef void (*ftwalk)(const struct bstree *);
 
+/* tree.c */
 extern void *tree_new(void);
 extern void tree_free(struct bstree **ptr) __nonnull ((1));
 extern struct bstree *tree_insert(struct bstree **ptree,

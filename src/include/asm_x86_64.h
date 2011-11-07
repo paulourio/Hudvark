@@ -7,6 +7,7 @@
 
 #include "token.h"
 
+/* asm_x86_64.c */
 extern void asm_gerar_inicio(void);
 extern void asm_gerar_final(void);
 extern void asm_gerar(const struct token *tk);

@@ -37,6 +37,7 @@ static inline int stack_top(void *pstack)
 	return EMPTY_STACK;
 }
 
+/* stack.c */
 extern void *stack_new(const int size);
 extern void *stack_free(void *pstack) __nonnull ((1));
 extern void stack_push(void *pstack, const int data) __nonnull ((1));

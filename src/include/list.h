@@ -17,6 +17,7 @@ typedef struct {
 	f_list_free_value free_value;
 } list;
 
+/* list.c */
 extern void list_clear(list *l);
 extern list *list_new(void);
 extern list *list_free(list *l);

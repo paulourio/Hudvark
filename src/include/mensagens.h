@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include "config.h"
 
-
 #define msg_location	fprintf(stderr, "Na função %s (%s:%d) ", __FUNCTION__, \
 				__FILE__, __LINE__)
 

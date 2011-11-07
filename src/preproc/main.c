@@ -6,3 +6,4 @@ int main(void)
 	filtrar_entrada();
 	return EXIT_SUCCESS;
 }
+

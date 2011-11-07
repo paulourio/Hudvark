@@ -4,20 +4,20 @@
 #include "list.h"
 #include "tree.h"
 
-/* analise.h */
+/* analise.c */
 extern struct bstree *analisar(void);
 
-/* Análise léxica */
+/* Análise léxica - tokenizer.c */
 extern void processar(void);
 extern void tk_inicializar(void);
 extern struct token *nova_token(const int token);
 extern void free_token(struct token *ptr);
 
-/* Análise sintática */
+/* Análise sintática - montar_arvore.c */
 extern struct bstree *parser_analisar_tokens(list **lista);
 extern void parser_inicializar(void);
 
-/* Análise semântica */
+/* Análise semântica - semantica.c */
 extern void analise_semantica(struct bstree *tree);
 
 static inline void inicializar_analisadores(void)

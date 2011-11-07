@@ -59,7 +59,9 @@ static void analisar_inicio_loop(const struct bstree *tree)
 	if (tree->parent != NULL && tree->parent->value->token == BOLHA) {
 		warn("Loop iniciado na coluna %d nunca será executado.", col);
 	}
-	if (tree->rchild != NULL && tree->rchild->value->token == LOOP_FIM) {
+	if (tree->rchild != NULL 
+		&& tree->rchild->value->token == LOOP_FIM
+		&& tree->lchild == NULL) {
 		warn("Loop infinito iniciando na coluna %d.", col);
 	}
 	identacao_aumentar();
